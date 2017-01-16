@@ -36,19 +36,21 @@ Elements of input arrays can be modified.
 #include <vector>
 #include <unordered_map>
 
-int solution(vector<int> &A) {
-    std::unordered_map<int, int> occurs;
-    for (int i = 0; i < A.size(); i++) {
-        if(occurs.find(A[i]) != occurs.end()){
-            occurs[A[i]] += 1;
+int solution(vector<int> &vec) {
+    std::unordered_map<int, int> occurs_hash;
+    for (int idx_vec = 0; idx_vec < vec.size(); idx_vec++) {
+        if(occurs_hash.find(vec[idx_vec]) != occurs_hash.end()){
+            occurs_hash[vec[idx_vec]] += 1;
         }
         else{
-            occurs[A[i]] = 1;
+            occurs_hash[vec[idx_vec]] = 1;
         }
     }
-    for (std::unordered_map<int,int>::iterator iter = occurs.begin(); iter != occurs.end(); ++iter ){
-        if((iter->second % 2) == 1){
-            return iter->first;
+    for (std::unordered_map<int,int>::iterator iter_occurs = occurs_hash.begin();
+         iter_occurs != occurs_hash.end();
+         ++iter_occurs ){
+        if((iter_occurs->second % 2) == 1){
+            return iter_occurs->first;
         }
     }
     return 0;
