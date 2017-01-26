@@ -41,3 +41,25 @@ int solution(int N) {
     }
     return max_len;
 }
+
+/*
+int solution(int num) {
+    bool met_set = false;
+    int len = 0;
+    int max_len = 0;
+    for (int bit = 0; bit < 32; ++bit, num = num>>1) {
+        if ((num & 0x1) == 1){
+            met_set = true;
+            if (len > max_len){
+                max_len = len;
+            }
+            len = 0;
+        } else if ((num & 0x1) == 0){
+            if (met_set){
+                len++;
+            }
+        }
+    }
+    return max_len;
+}
+ */
