@@ -26,16 +26,9 @@ expected worst-case space complexity is O(N) (not counting the storage required 
 
 int solution(string &str) {
     vector<char> stack;
-    auto iter = str.begin();
-
-    while (true) {
+    for (auto iter = str.begin(); iter != str.end(); iter = iter+1){
         switch (*iter) {
             case '\0':
-                if (stack.empty()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
                 break;
             case '{':
             case '[':
@@ -65,6 +58,6 @@ int solution(string &str) {
                 break;
             default:break;
         }
-        iter = iter + 1;
     }
+    return stack.empty();
 }
