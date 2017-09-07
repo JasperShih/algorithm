@@ -9,15 +9,16 @@
 using namespace std;
 
 typedef struct List {
-    bool tail;
     void *data;
     List *next;
 } List;
 
-//get_tail: List* -> bool
-bool get_tail(List *list) {
-    return list->tail;
+//is_tail: List* -> bool
+bool is_tail(List *list) {
+    return list->next == NULL;
 }
+
+//----------------------------------------------------
 
 //get_data: List* -> void*
 void *get_data(List *list) {
@@ -26,16 +27,11 @@ void *get_data(List *list) {
 
 //get_next: List* -> List*
 List *get_next(List *list) {
-    if (get_tail(list)) {
+    if (is_tail(list)) {
         throw exception();
     } else {
         return list->next;
     }
-}
-
-//set_tail: bool X List* -> ()
-void set_tail(bool is_tail, List *list) {
-    list->tail = is_tail;
 }
 
 //set_data: void* X size_t X List* -> ()
@@ -48,16 +44,14 @@ void set_data(void *data, size_t size, List *list) {
 //set_next: List* X List* -> ()
 void set_next(List *next, List *list) {
     list->next = next;
-    set_tail(false, list);
 }
 
-//------------------------------------------------
+//----------------------------------------------------
 
 //trans_to_list: void* X size_t -> List*
 List *trans_to_list(void *data, size_t size) {
     List *list = (List *) calloc(1, sizeof(List));
     set_data(data, size, list);
-    set_tail(true, list);
     return list;
 }
 
@@ -73,7 +67,7 @@ List *add_list(List *pre, List *post) {
     List *now = pre;
 
     for (;;) {
-        if (get_tail(now)) {
+        if (is_tail(now)) {
             set_next(post, now);
             return pre;
         } else {
@@ -86,16 +80,14 @@ List *add_list(List *pre, List *post) {
 List *del_elem(List *list) {
     List *tmp;
 
-    if (get_tail(list)) {
-        free(get_data(list));
-        free(list);
-        return NULL;
+    if (is_tail(list)) {
+        tmp = NULL;
     } else {
         tmp = get_next(list);
-        free(get_data(list));
-        free(list);
-        return tmp;
     }
+    free(get_data(list));
+    free(list);
+    return tmp;
 }
 
 //del_list: List* -> ()
@@ -109,20 +101,19 @@ void del_list(List *list) {
 }
 
 void display(List *list) {
-    if (get_tail(list)) {
-        cout << *(int *) get_data(list) << endl;
+    cout << *(int *) get_data(list) << endl;
+    if (is_tail(list)) {
         return;
     } else {
-        cout << *(int *) get_data(list) << endl;
         return display(get_next(list));
     }
 }
 
 int main() {
-    int  num1  = 1;
-    int  num2  = 2;
-    int  num3  = 3;
-    List *list = trans_to_list(&num1, sizeof(num1));
+    int  num1   = 1;
+    int  num2   = 2;
+    int  num3   = 3;
+    List *list  = trans_to_list(&num1, sizeof(num1));
     List *list2 = trans_to_list(&num1, sizeof(num1));
 
     list = add_elem(&num2, sizeof(num2), list);
