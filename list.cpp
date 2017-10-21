@@ -253,6 +253,20 @@ public:
     }
 };
 
+//shouldn't use defensive coding
+//we should trust our program and defend the other people program
+//defensive programming cannot correct coding logic error in run time
+//it just (log it and) swallow it, and force the wrong state program to continue.
+//it may result in worse situation.
+//so, I think let it crash is better.
+//Let it crash, and we immediately know where logic error when our coding, and rewrite it.
+//If we have to force wrong state program keep going,
+//maybe swallow error in the top flow control and log it, then restart the worker
+//is one way.
+
+//Caller knows that when List* is NULL and when List* is not.
+//So don't consider List* is null when writing class List.
+//It is caller responsibility.
 int main() {
     int num1 = 1;
     int num2 = 2;
